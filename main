@@ -1,0 +1,330 @@
+using System;
+using System.Collections.Generic;
+using System.Data.SqlClient;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+public class Weapon
+{
+    //Weapon 
+    public string Name, Element;
+    public int Power, Speed, Defence;
+
+    public Weapon()
+    {
+        Name = "";
+        Speed = 0;
+        Power = 0;
+        Defence = 0;
+        Element = "";
+    }
+
+    public Weapon(string name, int power, int speed, int defence, string element)
+    {
+        Name = name;
+        Power = power;
+        Speed = speed;
+        Defence = defence;
+        Element = element;
+    }
+}
+
+public class PartyMember
+{
+    //create base to store weapon
+    public Weapon w = new Weapon();
+    //power speed & defence initialisers
+    public int health, attack, speed, defence;
+    public int maxHealth, baseAttack, baseSpeed, baseDefence;
+    //values to store stats of weapons gear
+    public int wPower, wDefence, wSpeed;
+    public int gPower, gDefence, gSpeed;
+    public PartyMember()
+    {
+        attack = 0;
+        defence = 0;
+        speed = 0;
+        wPower = 0;
+        wDefence = 0;
+        wSpeed = 0;
+        gPower = 0;
+        gDefence = 0;
+        gSpeed = 0;
+    }
+    //Stats constructor
+    public PartyMember(int Health, int Attack, int Defence, int Speed)
+    {
+        health = Health;
+        maxHealth = Health;
+        attack = Attack;
+        defence = Defence;
+        speed = Speed;
+        baseAttack = Attack;
+        baseDefence = Defence;
+        baseSpeed = Speed;
+    }
+
+    //Function to update stats with equipped weapon
+    public void changeStatsWeapon(PartyMember p, int wPower, int wSpeed, int wDefence, string wElement)
+    {
+        p.wPower = wPower;
+        p.wSpeed = wSpeed;
+        p.wDefence = wDefence;
+        p.attack = baseAttack + p.gPower + wPower;
+        p.speed = baseSpeed + wSpeed;
+    }
+
+    public void changeStatsGear(PartyMember p, int gPower, int gSpeed, int gDefence)
+    {
+        p.gPower = gPower;
+        p.gSpeed = gSpeed;
+        p.gDefence = gDefence;
+        p.attack = baseAttack + p.wPower + gPower;
+        p.speed = baseSpeed + p.wSpeed + gSpeed;
+        p.defence = baseDefence + p.wDefence + gDefence;
+    }
+}
+
+public class Enemy
+{
+    public string Name, Weakness, Resistance;
+    public int Health, Attack, Defence;
+    public Enemy()
+    {
+        Name = "";
+        Health = 0;
+        Attack = 0;
+        Defence = 0;
+        Weakness = "";
+        Resistance = "";
+    }
+    public Enemy(string name, int health, int attack, int defence, string weakness, string resistance)
+    {
+        Name = name;
+        Health = health;
+        Attack = attack;
+        Defence = defence;
+        Weakness = weakness;
+        Resistance = resistance;
+    }
+
+    public void calculateDamage(Enemy e, int pAttack, string pElement, int eDefence, int eHealth, string eWeakness, string eResistance)
+    {
+        int damage = pAttack - eDefence;
+        if (eWeakness == pElement)
+        {
+            damage *= 2;
+        }
+        else if (eResistance == pElement)
+        {
+            damage /= 2;
+        }
+        e.Health -= damage;
+        Console.WriteLine(damage + " damage");
+    }
+}
+
+public class Item
+{
+    public string Name;
+
+    public Item()
+    {
+        Name = "";
+    }
+
+    public Item(string name)
+    {
+        Name = name;
+    }
+} 
+
+public class Potion : Item
+{
+    public int Healing;
+
+    public Potion()
+    {
+        Name = "";
+        Healing = 0;
+    }
+
+    public Potion(string name, int healing)
+    {
+        Name = name;
+        Healing = healing;
+    }
+
+    public void Heal(PartyMember p, int potionHealth)
+    {
+        int oldHealth = p.health;
+        int healedHealth = p.health += potionHealth;
+        if (healedHealth > p.maxHealth)
+        {
+            p.health = p.maxHealth;
+        }
+        else
+        {
+            p.health += healedHealth;
+        }
+        Console.WriteLine(oldHealth + "HP -> " + p.health + "HP");
+    }
+}
+
+/*public class Palm : Weapon
+{
+    public string Name, Element;
+    public int Power, Speed;
+
+    public Palm()
+    {
+        Name = "";
+        Speed = 0;
+        Power = 0;
+        Element = "";
+    }
+
+    public Palm(string name, int power, int speed, string element)
+    {
+        Name = name;
+        Power = power;
+        Speed = Speed;
+        Element = Element;
+    }
+
+}*/
+
+class game
+{
+    static void Main()
+    {
+        /*SqlConnection myConnection = new SqlConnection("user id=username;"
+          + "password=password;server=serverurl;" + "Trusted_Connection=yes;"
+          + "database=database; " + "connection timeout=30");
+        try
+        {
+            myConnection.Open();
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e.ToString());
+        }
+
+        try
+        {
+            SqlDataReader Reader = null;
+            SqlCommand myCommand = new SqlCommand("select * from table", myConnection);
+
+            Reader = myCommand.ExecuteReader();
+            while(Reader.Read())
+            {
+                Console.WriteLine(Reader["Column1"].ToString());
+                Console.WriteLine(Reader["Column2"].ToString());
+            }
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e.ToString());
+        }*/
+        //create new party member
+        PartyMember Leo = new PartyMember(100, 20, 10, 30);
+        //create weapon list
+        List<Weapon> weaponList = new List<Weapon>();
+        string testString;
+        //create item list
+        List<Item> itemList = new List<Item>();
+        //create weapons to add to list
+        Weapon shocker = new Weapon("Shocker", 50, 50, 5, "Electricity");
+        Weapon burnCannon = new Weapon("Burn Cannon", 70, 30, 50, "Fire");
+        Weapon frostArm = new Weapon("Frost Arm", 60, 35, 45, "Ice");
+        weaponList.Add(shocker);
+        weaponList.Add(burnCannon);
+        weaponList.Add(frostArm);
+        //create items to add to list
+        Potion potion = new Potion("Potion", 20);
+        itemList.Add(potion);
+        //Console.WriteLine(palm.Name + " " + palm.Power + " " + palm.Element);
+        //display weapons & stats in list
+        foreach (Weapon a in weaponList)
+            Console.WriteLine(a.Name + " Speed = " + a.Speed);
+        //input weapon to equip
+        Boolean exit = false;
+        //check for exit message, end run if true
+        while (exit == false)
+        {
+            Console.WriteLine("Choose Weapon");
+            string w = Console.ReadLine();
+            if (w == "Ready")
+            {
+                exit = true;
+            }
+            else
+            {
+                //check to see if input in weaponList
+                foreach (Weapon a in weaponList)
+                    if (a.Name == w)
+                    {
+                        Console.WriteLine("Attack = " + Leo.attack + " -> " + (Leo.baseAttack + a.Power));
+                        Console.WriteLine("Defence = " + Leo.defence + " -> " + (Leo.baseDefence + a.Defence));
+                        Console.WriteLine("Speed = " + Leo.speed + " -> " + (Leo.baseSpeed + a.Speed));
+                        Console.WriteLine("Equip?");
+                        string e = Console.ReadLine();
+                        if (e == "Yes")
+                        {
+                            //equip if found
+                            Leo.w = a;
+                            Console.WriteLine("Equipped");
+                        }
+                        break;
+                    }
+                Leo.changeStatsWeapon(Leo, Leo.w.Power, Leo.w.Speed, Leo.w.Defence, Leo.w.Element);
+            }
+        }
+        Enemy valren = new Enemy("Valren", 50, 40, 30, "Electric", "Fire");
+        Console.WriteLine(valren.Name + " appears!");
+        while (valren.Health > 0)
+        {
+            Console.WriteLine("Command?");
+            string command = Console.ReadLine();
+            if (command == "Attack")
+            {
+                valren.calculateDamage(valren, Leo.attack, Leo.w.Element, valren.Defence, valren.Health, valren.Weakness, valren.Resistance);
+                Console.WriteLine("Enemy Health = " + valren.Health);
+            }
+            if (command == "Guard")
+            {
+                Leo.defence *= 2;
+            }
+            if (command == "Item")
+            {
+                foreach (Item a in itemList)
+                {
+                    Console.WriteLine(a.Name);
+                }
+                string item = Console.ReadLine();
+                foreach (Item a in itemList)
+                {
+                    if(a.Name == item)
+                    {
+                        Console.WriteLine("Use?");
+                        string response = Console.ReadLine();
+                        if(response == "Yes")
+                        {
+                            if(a.GetType() == typeof(Potion))
+                            {
+                                (a as Potion).Heal(Leo, (a as Potion).Healing);
+                            }
+                        }
+                        break;
+                    }
+                }
+            }
+        }
+        if (valren.Health <= 0)
+        {
+            Console.WriteLine("Enemy Defeated");
+            string w = Console.ReadLine();
+        }
+    }
+}
