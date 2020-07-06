@@ -12,7 +12,6 @@ namespace MenuInterface
 {
     public partial class MainMenu : Form
     {
-        int value = 0;
         public MainMenu()
         {
             InitializeComponent();
@@ -53,8 +52,8 @@ namespace MenuInterface
             int movementSpeed = Int32.Parse(movementSpeedBox.Text);
             int attackSpeed = Int32.Parse(attackSpeedBox.Text);
 
-            db.InsertPartyMember(NameBox.Text, WeaponBox.Text, hp, meleeAttack, meleeDefence,
-                rangedAttack, rangedDefence, movementSpeed, attackSpeed);
+            /*db.InsertPartyMember(NameBox.Text, WeaponBox.Text, hp, meleeAttack, meleeDefence,
+                rangedAttack, rangedDefence, movementSpeed, attackSpeed);*/
 
             NameBox.Text = "";
             WeaponBox.Text = "";
@@ -106,6 +105,14 @@ namespace MenuInterface
             Form itemMenu = new ItemMenu();
             itemMenu.Owner = this;
             itemMenu.Show(this);
+            this.Hide();
+        }
+
+        private void equipButton_Click(object sender, EventArgs e)
+        {
+            Form equipMenu = new EquipMenu();
+            equipMenu.Owner = this;
+            equipMenu.Show(this);
             this.Hide();
         }
     }

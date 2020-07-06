@@ -13,11 +13,18 @@ namespace MenuInterface
         public int effect;
         public int number;
 
-        public string FullItemInfo
+        public string BaseItemInfo
         {
             get
             {
                 return $"{ name } { "x" + number }";
+            }
+        }
+        public string FullItemInfo
+        {
+            get
+            {
+                return $"{ name } { "x" + number } {effect}";
             }
         }
 
@@ -34,8 +41,6 @@ namespace MenuInterface
                     p.currentHealth += effect;
                 }
             }
-
         }
-
     }
 }

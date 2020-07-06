@@ -3,18 +3,22 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace MenuInterface
 {
     public class Weapon
     {
         public string name { get; set; }
+        public string type { get; set; }
+        public int health { get; set; }
         public int rangedAttack { get; set; }
         public int meleeAttack { get; set; }
         public int rangedDefence { get; set; }
         public int meleeDefence { get; set; }
         public int movementSpeed { get; set; }
         public int attackSpeed { get; set; }
+        public double status { get; set; }
         public string element { get; set; }
         public int rating { get; set; }
         public int key { get; set; }

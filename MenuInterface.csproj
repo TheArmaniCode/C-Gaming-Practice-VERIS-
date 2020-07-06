@@ -59,6 +59,12 @@
     <Compile Include="DataAccess.cs" />
     <Compile Include="ElementChip.cs" />
     <Compile Include="Enemy.cs" />
+    <Compile Include="EquipMenu.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="EquipMenu.Designer.cs">
+      <DependentUpon>EquipMenu.cs</DependentUpon>
+    </Compile>
     <Compile Include="Helper.cs" />
     <Compile Include="Item.cs" />
     <Compile Include="ItemMenu.cs">
@@ -80,6 +86,7 @@
     <Compile Include="PartMenu.Designer.cs">
       <DependentUpon>PartMenu.cs</DependentUpon>
     </Compile>
+    <Compile Include="PartyMemberCraft.cs" />
     <Compile Include="PartyMenu.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -93,6 +100,9 @@
     <Compile Include="WeaponAccess.cs" />
     <EmbeddedResource Include="CraftMenu.resx">
       <DependentUpon>CraftMenu.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EquipMenu.resx">
+      <DependentUpon>EquipMenu.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ItemMenu.resx">
       <DependentUpon>ItemMenu.cs</DependentUpon>

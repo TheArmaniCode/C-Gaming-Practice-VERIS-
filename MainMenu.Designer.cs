@@ -280,6 +280,7 @@
             this.equipButton.TabIndex = 30;
             this.equipButton.Text = "Equip";
             this.equipButton.UseVisualStyleBackColor = true;
+            this.equipButton.Click += new System.EventHandler(this.equipButton_Click);
             // 
             // itemButton
             // 
